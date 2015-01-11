@@ -13,6 +13,15 @@ public class SyncService extends Service{
 
     private SyncAdapter syncAdapter;
     private GoogleApiClient googleApiClient;
+    private Synchronization synchronization;
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        synchronization.syncNow();
+
+        return super.onStartCommand(intent, flags, startId);
+    }
 
     @Override
     public void onCreate() {
@@ -31,13 +40,14 @@ public class SyncService extends Service{
                 syncAdapter = new SyncAdapter(getApplicationContext(), true, googleApiClient);
             }
         }
+
+        synchronization = new Synchronization(getBaseContext());
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return syncAdapter.getSyncAdapterBinder();
     }
-
 
     @Override
     public void onDestroy() {

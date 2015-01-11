@@ -20,6 +20,44 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     private Synchronization synchronization;
     private Settings settings;
+    private HandheldNotifications handheldNotifications;
+    private WearableNotifications wearableNotifications;
+
+    private GoogleApiClient googleApiClient;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_xml, menu);
+        return true;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.pref_bitcoin_watcher);
+
+        handheldNotifications = new HandheldNotifications(this);
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .build();
+
+
+        wearableNotifications = new WearableNotifications(googleApiClient, new Storage(this), settings);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        if (key.equals(Settings.KEY_CURRENCY)) {
+            handheldNotifications.notifyWidget();
+            wearableNotifications.notifyWearable();
+        }
+
+        if (key.equals(Settings.KEY_SYNC)) {
+            synchronization.syncPeriodic(settings.getSyncIntervalInMinutes());
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -34,52 +72,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         }
 
         return false;
-    }
-
-    private HandheldNotifications handheldNotifications;
-
-    private WearableNotifications wearableNotifications;
-    private GoogleApiClient googleApiClient;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings_xml, menu);
-        return true;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_bitcoin_watcher);
-
-        synchronization = new Synchronization(this);
-        settings = new Settings(this);
-        handheldNotifications = new HandheldNotifications(this);
-
-        synchronization.syncNow();
-        synchronization.syncPeriodic(settings.getSyncIntervalInMinutes());
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .build();
-
-
-        final Storage storage = new Storage(this);
-
-        wearableNotifications = new WearableNotifications(googleApiClient, storage, settings);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
-        if (key.equals(Settings.KEY_CURRENCY)) {
-            handheldNotifications.notifyWidget();
-            wearableNotifications.notifyWearable();
-        }
-
-        if (key.equals(Settings.KEY_SYNC)) {
-            synchronization.syncPeriodic(settings.getSyncIntervalInMinutes());
-        }
     }
 
     @Override

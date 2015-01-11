@@ -1,67 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="80dp"
-    android:padding="15dp"
-    android:background="@drawable/widget_bg"
-    >
+    android:layout_height="110dp"
+    android:background="@android:color/holo_orange_light"
+    android:orientation="vertical"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/llTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tvWidgetTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btSync"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_action_refresh" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <ImageView
-        android:id="@+id/ivIcon"
-        android:background="@drawable/widget_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="15dp"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000000" />
+
 
     <LinearLayout
-        android:id="@+id/llLabels"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/ivIcon"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="15dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/llLabels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/widget_label_price"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"/>
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/widget_label_price"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/widget_label_date"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/widget_label_date"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"/>
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvCurrentPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tvUpdatedAt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true">
-
-        <TextView
-            android:id="@+id/tvCurrentPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textAlignment="viewEnd"/>
-
-        <TextView
-            android:id="@+id/tvUpdatedAt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textAlignment="viewEnd"/>
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
 
 
